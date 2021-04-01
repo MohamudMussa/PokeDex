@@ -57,7 +57,7 @@ function App() {
         <div className='pokedex-list'>
           {pokedex.map(pokemon => {
             <div className='pokemon' key={pokemon.id}>
-              <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + wildPokemon.id + ".png"} className="sprite" />
+              <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemon.id + ".png"} className="sprite" />
 
 
             </div>
