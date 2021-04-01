@@ -26,6 +26,23 @@ function App() {
 
   }
 
+  //catch the pokemon system 
+
+  const catchPokemon = (pokemon) => {
+    setPokedex(state => {
+      const monExists = (state.filter(p => pokemon.id == p.id).length > 0);
+
+      if (!monExists) {
+        state = [...state, pokemon]
+        state.sort(function (a, b) {
+          return a.id - b.id
+        })
+      }
+      return state
+    })
+    ecounterWildPokemon()
+  }
+
   const ecounterWildPokemon = () => {
     axios.get(URL + pokeId())
       .then(response => {
@@ -43,28 +60,23 @@ function App() {
         <p class="text-lg ...">by Mohamud Mussa</p>
       </header>
 
-      <section className='wildName'>
+      <section className="wild-pokemon">
         <h2>Wild Encounter</h2>
         <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + wildPokemon.id + ".png"} className="sprite" />
         <h3>{wildPokemon.name}</h3>
-        <button className="catch-btn">Catch</button>
+        <button className="catch-btn" onClick={() => catchPokemon(wildPokemon)}>CATCH</button>
       </section>
 
-
-      <section>
-        <h2>PokeDex</h2>
-
-        <div className='pokedex-list'>
-          {pokedex.map(pokemon => {
-            <div className='pokemon' key={pokemon.id}>
+      <section className="pokedex">
+        <h2>Pokédex</h2>
+        <div className="pokedex-list">
+          {pokedex.map(pokemon => (
+            <div className="pokemon" key={pokemon.id}>
               <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemon.id + ".png"} className="sprite" />
-
-              <h3> {pokemon.name}</h3>
-              <button>&times;</button>
+              <h3 className="pokemon-name">{pokemon.name}</h3>
+              <button className="remove">&times;</button>
             </div>
-          })}
-
-
+          ))}
         </div>
       </section>
 
