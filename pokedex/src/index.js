@@ -7,26 +7,26 @@ import './index.css';
 
 function App() {
 
-  const [pokedex, setPokedex] = useState([]);
+  const [pokedex, setPokedex] = useState([])
   const [wildPokemon, setWildPokemon] = useState({});
 
-  const URL = 'https://pokeapi.co/api/v2/pokemon/'
-
-
   useEffect(() => {
-    ecounterWildPokemon()
-
+    encounterWildPokemon()
   }, [])
 
   const pokeId = () => {
-
     const min = Math.ceil(1)
     const max = Math.floor(151)
     return Math.floor(Math.random() * (max - min + 1)) + min
-
   }
 
-  //catch the pokemon system 
+  const encounterWildPokemon = () => {
+    axios
+      .get('https://pokeapi.co/api/v2/pokemon/' + pokeId())
+      .then(response => {
+        setWildPokemon(response.data);
+      })
+  }
 
   const catchPokemon = (pokemon) => {
     setPokedex(state => {
@@ -40,24 +40,18 @@ function App() {
       }
       return state
     })
-    ecounterWildPokemon()
+    encounterWildPokemon()
   }
 
-  const ecounterWildPokemon = () => {
-    axios.get(URL + pokeId())
-      .then(response => {
-        setWildPokemon(response.data)
-
-      })
-
+  const releasePokemon = id => {
+    setPokedex(state => state.filter(p => p.id != id))
   }
-
 
   return (
-    <div class="">
+    <div className="app-wrapper">
       <header>
-        <h1 class="text-5xl font-mono">PokeDex </h1>
-        <p class="text-lg ...">by Mohamud Mussa</p>
+        <h1 className="title">React Hooks</h1>
+        <h3 className="subtitle">With Pokémon</h3>
       </header>
 
       <section className="wild-pokemon">
@@ -74,19 +68,14 @@ function App() {
             <div className="pokemon" key={pokemon.id}>
               <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemon.id + ".png"} className="sprite" />
               <h3 className="pokemon-name">{pokemon.name}</h3>
-              <button className="remove">&times;</button>
+              <button className="remove" onClick={() => releasePokemon(pokemon.id)}>&times;</button>
             </div>
           ))}
         </div>
       </section>
-
     </div>
-
-
   )
-
-};
-
+}
 ReactDOM.render(
   <React.StrictMode>
     <App />
