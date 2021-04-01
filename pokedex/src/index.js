@@ -59,7 +59,8 @@ function App() {
             <div className='pokemon' key={pokemon.id}>
               <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemon.id + ".png"} className="sprite" />
 
-
+              <h3> {pokemon.name}</h3>
+              <button>&times;</button>
             </div>
           })}
 
